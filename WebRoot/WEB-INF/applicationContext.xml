@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                     http://www.springframework.org/schema/beans/spring-beans-2.5.xsd                
+                     http://www.springframework.org/schema/context 
+                     http://www.springframework.org/schema/context/spring-context-2.5.xsd                
+                     http://www.springframework.org/schema/tx 
+                     http://www.springframework.org/schema/tx/spring-tx-2.5.xsd                
+                     http://www.springframework.org/schema/aop 
+                     http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<context:annotation-config />
+	<context:component-scan base-package="com.hxp" />
+	
+	<!-- DataSource -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+	
+	<context:property-placeholder location="classpath:/jdbc.properties"/>
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+	    <property name="dataSource" ref="dataSource"/>
+	    <!--<property name="mappingResources">
+	      <list>
+	        <value>product.hbm.xml</value>
+	        <value>other.hbm.xml</value> 
+	      </list>
+	    </property> 和下面二选一
+	    <property name="annotatedClasses">
+	    	<list>
+	    		<value>com.hxp.model.Article</value>
+	    		<value>com.hxp.model.Category</value>
+	    	</list>
+	    </property>-->
+	    <property name="packagesToScan">
+			<list>
+				<value>com.hxp.model</value>		
+			</list>
+		</property>
+	    <property name="hibernateProperties">
+	    	<props>
+	    		<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+	    		<prop key="show_sql">true</prop>
+	    	</props>
+	    </property>
+	</bean>
+	 
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean> 
+	  
+	<!-- xml配置sessionFactory 
+	  <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+	    <property name="dataSource" ref="dataSource"/>
+	    <property name="mappingResources">
+	      <list>
+	        <value>product.hbm.xml</value>
+	        <value>other.hbm.xml</value> 具体的实体类 对应的xml配置文件
+	      </list>
+	    </property>
+	    <property name="hibernateProperties">
+	      <value>
+	        hibernate.dialect=org.hibernate.dialect.MySQLDialect
+	      </value>
+	    </property>
+	  </bean>
+	-->
+	
+
+	<bean id="transactionManager" 
+            class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    	<property name="sessionFactory" ref="sessionFactory" />
+  	</bean>
+  
+	<aop:config>
+    	<aop:pointcut id="managerMethods" 
+            expression="execution(* com.hxp.service.*.*(..))"/>
+    	<aop:advisor advice-ref="txAdvice" pointcut-ref="managerMethods"/>
+  	</aop:config>
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+    	<tx:attributes>
+	      	<tx:method name="add*" propagation="REQUIRED"/>
+	      	<tx:method name="del*" propagation="REQUIRED"/>
+	      	<tx:method name="upd*" propagation="REQUIRED"/>
+	      	<tx:method name="load*" propagation="REQUIRED"/>
+	      	<tx:method name="*" propagation="SUPPORTS" read-only="true"/>
+    	</tx:attributes>
+  	</tx:advice>
+
+	 
+	
+</beans>

@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<link rel="stylesheet" href="<?php echo base_url().'style/admin' ?>/css/public.css" />
+	<script type="text/javascript" src="<?php echo base_url().'style/admin' ?>/js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		$("#submit").click(function(){
+
+		})
+	})
+	</script>
+	<title>查看所有文章</title>
+</head>
+<body>
+	<form action="<?php echo site_url('admin/article/index') ?>" method="post">
+	<table class="table">
+		<tr class="th">
+			<td colspan="10">查看文章</td>
+		</tr>
+		<tr>
+			<td>AID</td>
+			<td>标题</td>
+			<td>栏目</td>
+			<td>类型</td>
+			<td>摘要</td>
+			<td>发表时间</td>
+			<td>缩略图</td>
+			<td>操作</td>
+		</tr>
+
+		<?php foreach($article_list as $v): ?>
+		<tr>
+			<td width="5%"><?php echo $v['aid'] ?></td>
+			<td width="10%"><?php echo $v['title'] ?></td>
+			<td width="5%"><?php echo $v['cname'] ?></td>
+			<td width="5%"><?php echo ($v['type']==0)?'普通':'热门' ?></td>
+			<td width="40%"><?php echo $v['summary'] ?></td>
+			<td width="15%"><?php echo date('Y-m-d H:i:s',$v['time']) ?></td>
+			<td width="10%"><?php echo $v['thumb'] ?></td>
+			<td width="10%">
+				[<a href="<?php echo site_url('admin/article/edit_article/'.$v['aid']) ?>">编辑</a>]
+				[<a href="<?php echo site_url('admin/article/del_article/'.$v['aid'] ) ?>">删除</a>]
+			</td>
+		</tr>
+		<?php endforeach ?>
+		<tr>
+			<td colspan="10" align="right">
+				每页显示条数:
+				<select name="perNum" id="perNum">
+					<option value="3" <?php if($perpage == 3)echo 'selected="selected"' ?>>3</option>
+					<option value="6" <?php if($perpage == 6)echo 'selected="selected"' ?>>6</option>
+					<option value="9" <?php if($perpage == 9)echo 'selected="selected"' ?>>9</option>
+				</select>
+				<input type="submit" id="submit" name="submit" value="确定"/>
+			</td>
+		</tr>
+	</table>
+	</form>
+	<div class="page"><?php echo $links ?></div>
+</body>
+</html>

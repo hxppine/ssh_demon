@@ -1,0 +1,28 @@
+<!DOCTYPE struts PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+          "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory" />
+    <include file="struts-default.xml"></include>
+    
+    <package name="util" namespace="/" extends="struts-default">
+    	<!--<default-action-ref name="articleIndex" />默认action 建议不用 -->
+    	<interceptors>
+    		<interceptor name="authority" class="com.hxp.util.AuthorityInterceptor"></interceptor>
+    		<interceptor-stack name="myStack">
+    			<interceptor-ref name="authority"></interceptor-ref>
+    			<interceptor-ref name="defaultStack"></interceptor-ref>
+    		</interceptor-stack>
+    	</interceptors>
+    	
+    	<default-interceptor-ref name="myStack"></default-interceptor-ref>
+    	
+    	<global-results>
+    		<result name="login">/views/index/login.jsp</result>
+    	</global-results>
+    </package>
+    
+    <include file="com/hxp/action/article.xml"></include>
+    <include file="com/hxp/action/login.xml"></include>
+    <include file="com/hxp/action/admin.xml"></include>
+</struts>

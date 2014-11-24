@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<link rel="stylesheet" href="<?php echo base_url().'style/admin' ?>/css/public.css" />
+	<style type="text/css">
+		span{
+			color:red;
+		}
+	</style>
+	<title>编辑栏目</title>
+</head>
+<body>
+	<form action="<?php echo site_url('admin/category/category_edited') ?>" method="POST" enctype="multipart/form-data">
+	<table class="table">
+		<tr class="th">
+			<td colspan="10">编辑栏目</td>
+		</tr>
+		<tr>
+			<td>标题</td>
+			<td>
+				<input type="text" name="cname" value="<?php echo empty($category['cname'])?set_value('cname'):$category['cname'] ?>" />
+				<?php echo form_error('cname','<span>','</span>')  ?>
+			</td>
+		</tr>
+		<tr>
+			<td>备注</td>
+			<td>
+				<textarea name="remark" id="" style="width:550px;height:100px" ><?php echo empty($category['remark'])?set_value('remark'):$category['remark'] ?></textarea><?php echo form_error('remark','<span>','</span>')  ?>
+			</td>
+		</tr>
+		<tr>
+			<input type="hidden" name="cid" value="<?php echo empty($category['cid'])?set_value('cid'):$category['cid'] ?>" />
+			<td colspan="10"><input type="submit" class="input_button" value="保存修改" /></td>
+		</tr>
+	</table>
+	</form>
+</body>
+</html>

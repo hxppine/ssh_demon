@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<link rel="stylesheet" href="<?php echo base_url().'style/admin' ?>/css/public.css" />
+	<style type="text/css">
+		span{
+			color:red;
+		}
+	</style>
+	<title>添加问题</title>
+</head>
+<body>
+	<form action="<?php echo site_url('admin/questions/questions_added') ?>" method="POST" enctype="multipart/form-data">
+	<table class="table">
+		<tr class="th">
+			<td colspan="10">添加问题</td>
+		</tr>
+		<tr>
+			<td>标题</td>
+			<td>
+				<input type="text" name="question" value="<?php echo set_value('questions') ?>" />
+				<?php echo form_error('question','<span>','</span>')  ?>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="10"><input type="submit" class="input_button" value="保存添加" /></td>
+		</tr>
+	</table>
+	</form>
+</body>
+</html>

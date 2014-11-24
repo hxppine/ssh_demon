@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<link rel="stylesheet" href="<?php echo base_url().'style/admin' ?>/css/public.css" />
+	<style type="text/css">
+		span{
+			color:red;
+		}
+	</style>
+	<title>添加栏目</title>
+</head>
+<body>
+	<form action="<?php echo site_url('admin/category/category_added') ?>" method="POST" enctype="multipart/form-data">
+	<table class="table">
+		<tr class="th">
+			<td colspan="10">添加栏目</td>
+		</tr>
+		<tr>
+			<td>标题</td>
+			<td>
+				<input type="text" name="cname" value="<?php echo set_value('cname') ?>" />
+				<?php echo form_error('cname','<span>','</span>')  ?>
+			</td>
+		</tr>
+		<tr>
+			<td>备注</td>
+			<td>
+				<textarea name="remark" style="width:550px;height:100px" ><?php echo set_value('remark') ?></textarea><?php echo form_error('remark','<span>','</span>')  ?>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="10"><input type="submit" class="input_button" value="保存添加" /></td>
+		</tr>
+	</table>
+	</form>
+</body>
+</html>
